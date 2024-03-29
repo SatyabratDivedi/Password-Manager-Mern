@@ -43,7 +43,7 @@ const App = () => {
       toast.error('all details must be filled');
     } else {
       try {
-        const data = await axios.post('https://password-manager-mern.vercel.app/api/create', formData);
+        const data = await axios.post('https://password-manager-mern.onrender.com/api/create', formData);
         toast.success(data.data.msg);
         setFormData({ website: '', username: '', password: '' })
       } catch (error) {
@@ -52,7 +52,7 @@ const App = () => {
     }
   }
   const deleteCkl = async (id) => {
-    const data = await axios.delete(`https://password-manager-mern.vercel.app/api/delete_one/${id}`);
+    const data = await axios.delete(`https://password-manager-mern.onrender.com/api/delete_one/${id}`);
     toast.success(data.data.msg);
     const updateFormData = storeData.filter((item) => item._id !== id);
     setStoreData(updateFormData);
@@ -187,6 +187,6 @@ export default App;
 
 
 export const allDataLoader = async ()=>{
- const res = await axios.get('https://password-manager-mern.vercel.app/api/get-all');
+ const res = await axios.get('https://password-manager-mern.onrender.com/api/get-all');
  return res;
 }

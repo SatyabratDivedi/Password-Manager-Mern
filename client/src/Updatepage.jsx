@@ -25,7 +25,7 @@ export const Updatepage = () => {
   }, [])
   const updateHandle = async (e) => {
     e.preventDefault();
-    const res = await axios.put(`https://password-manager-mern.vercel.app/api/update/${id}`, edit);
+    const res = await axios.put(`https://password-manager-mern.onrender.com/api/update/${id}`, edit);
     navigate('/');
     toast.success(res.data.msg)
   }
@@ -64,7 +64,7 @@ export const Updatepage = () => {
 
 
 export const oneDataLoader = async ({params}) => {
-  const res = await axios.get(`https://password-manager-mern.vercel.app/api/get-one/${params.id}`);
+  const res = await axios.get(`https://password-manager-mern.onrender.com/api/get-one/${params.id}`);
   console.log(res)
   return res ;
 }
