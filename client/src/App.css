@@ -1,0 +1,11 @@
+* {
+    box-sizing: border-box;
+}
+
+.myClass {
+    width: 20px;
+}
+
+.myClass:hover {
+    background-color: red;
+}
