@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 dotenv.config();
 app.use(cors({
-    origin:'https://password-manager-mern.vercel.app/'
+    origin:'https://password-manager-mern.onrender.com'
 }))
 
 const PORT = process.env.PORT || 3000;
