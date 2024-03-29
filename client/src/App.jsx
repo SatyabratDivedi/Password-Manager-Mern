@@ -5,7 +5,7 @@ import lottie from "lottie-web";
 import { defineElement } from "@lordicon/element";
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 defineElement(lottie.loadAnimation);
 
@@ -82,7 +82,7 @@ const App = () => {
     <>
       <nav className=' font-semibold bg-slate-600 text-white flex justify-around items-center h-12'>
         <div > <span className=' font-bold text-green-600'> &lt;P</span>ass<span className=' font-bold text-green-600'>OP/&gt;</span> </div>
-        <div className=' border flex gap-1 items-center bg-green-500 rounded-3xl p-1 cursor-pointer hover:bg-green-600 active:scale-95 duration-100'><FaGithub />Github</div>
+        <Link to={'https://github.com/SatyabratDivedi'} className=' border flex gap-1 items-center bg-green-500 rounded-3xl p-1 cursor-pointer hover:bg-green-600 active:scale-95 duration-100'><FaGithub />Github</Link>
       </nav>
       <div>
         <div className=' text-2xl text-center' > <span className=' font-bold text-green-600'> &lt;P</span>ass<span className=' font-bold text-green-600'>OP/&gt;</span> </div>
