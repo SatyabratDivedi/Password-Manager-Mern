@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App, { allDataLoader } from './App.jsx'
+import App from './App.jsx'
 import './index.css'
 import './App.css'
 import toast, { Toaster } from 'react-hot-toast';
@@ -11,7 +11,6 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <App/>,
-    loader:allDataLoader,
   },
   {
     path: "/update/:id",

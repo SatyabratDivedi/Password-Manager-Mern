@@ -5,13 +5,11 @@ import lottie from "lottie-web";
 import { defineElement } from "@lordicon/element";
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import { Link, useLoaderData, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 defineElement(lottie.loadAnimation);
 
-
 const App = () => {
-  const res = useLoaderData();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     website: '',
@@ -21,21 +19,18 @@ const App = () => {
   const [storeData, setStoreData] = useState([]);
   const { website, username, password } = formData;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setStoreData(res.data);
-      } catch (error) {
-        console.error('Error parsing JSON from local storage:', error);
-      }
+  const fetchData = async () => {
+    try {
+      const res = await axios.get('https://password-manager-mern.onrender.com/api/get-all');
+      setStoreData(res.data);
+    } catch (error) {
+      console.error('Error ', error);
     }
-    fetchData();
-  }, [formData]);
-
-  const editCkl = (id) => {
-    navigate(`/update/${id}`);
-
   }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const submitHandle = async (e) => {
     e.preventDefault();
@@ -43,19 +38,25 @@ const App = () => {
       toast.error('all details must be filled');
     } else {
       try {
-        const data = await axios.post('https://password-manager-mern.onrender.com/api/create', formData);
-        toast.success(data.data.msg);
+        const res = await axios.post('https://password-manager-mern.onrender.com/api/create', formData);
+        toast.success(res.data.msg);
         setFormData({ website: '', username: '', password: '' })
+        setStoreData([...storeData, res.data.data]);
       } catch (error) {
         toast.error(error.response.data.msg)
       }
     }
   }
+
+
   const deleteCkl = async (id) => {
-    const data = await axios.delete(`https://password-manager-mern.onrender.com/api/delete_one/${id}`);
-    toast.success(data.data.msg);
-    const updateFormData = storeData.filter((item) => item._id !== id);
-    setStoreData(updateFormData);
+    const res = await axios.delete(`https://password-manager-mern.onrender.com/api/delete_one/${id}`);
+    toast.success(res.data.msg);
+    setStoreData(prevData => prevData.filter((item) => item._id !== id))
+  }
+
+  const editChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
   const copyWeb = (id) => {
@@ -74,8 +75,8 @@ const App = () => {
     toast.success('Password Copied');
   }
 
-  const editChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+  const editCkl = (id) => {
+    navigate(`/update/${id}`);
   }
   return (
     <>
@@ -122,7 +123,7 @@ const App = () => {
                 </tr> :
                 storeData.map((item) => (
                   <tr key={item._id} className=' flex  text-xs md:text-sm hover:bg-green-50'>
-                    <Link to={item.website} target='_blank' className=' cursor-pointer flex w-full justify-center items-center '>{item.website}
+                    <td className=' cursor-pointer flex w-full justify-center items-center '>{item.website}
                       <div className=' text-xs rounded-full cursor-pointer active:scale-90'>
                         <lord-icon
                           style={{ width: '20px' }}
@@ -131,7 +132,7 @@ const App = () => {
                           trigger="hover">
                         </lord-icon>
                       </div>
-                    </Link>
+                    </td>
                     <td className=' flex w-full justify-center items-center '>{item.username}
                       <div className=' text-xs rounded-full cursor-pointer active:scale-90'>
                         <lord-icon
@@ -173,20 +174,11 @@ const App = () => {
                   </tr>
                 ))
             }
-
           </tbody>
         </table>
       </div>
     </>
-
-
   )
 }
 
 export default App;
-
-
-export const allDataLoader = async ()=>{
- const res = await axios.get('https://password-manager-mern.onrender.com/api/get-all');
- return res;
-}
