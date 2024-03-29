@@ -82,7 +82,7 @@ const App = () => {
     <>
       <nav className=' font-semibold bg-slate-600 text-white flex justify-around items-center h-12'>
         <div > <span className=' font-bold text-green-600'> &lt;P</span>ass<span className=' font-bold text-green-600'>OP/&gt;</span> </div>
-        <Link to={'https://github.com/SatyabratDivedi'} className=' border flex gap-1 items-center bg-green-500 rounded-3xl p-1 cursor-pointer hover:bg-green-600 active:scale-95 duration-100'><FaGithub />Github</Link>
+        <Link to={'https://github.com/SatyabratDivedi'} target='_blank' className=' border flex gap-1 items-center bg-green-500 rounded-3xl p-1 cursor-pointer hover:bg-green-600 active:scale-95 duration-100'><FaGithub />Github</Link>
       </nav>
       <div>
         <div className=' text-2xl text-center' > <span className=' font-bold text-green-600'> &lt;P</span>ass<span className=' font-bold text-green-600'>OP/&gt;</span> </div>
