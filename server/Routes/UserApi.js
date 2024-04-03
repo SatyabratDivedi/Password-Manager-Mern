@@ -5,19 +5,18 @@ const route = express();
 
 route.post('/create', async (req, res) => {
     const { website, username, password } = req.body;
-    const existUser = await user.findOne({ password })
+    const existPass = await user.findOne({ password })
     try {
-        if (existUser) {
-            console.log('ye password phle se maujud hai');
-            return res.status(409).json({ msg: 'Password Must be unique' });
+        if (existPass) {
+            return res.status(409).json({ msg: 'This password is already decleard' });
         }
         const savedData = await user.create(req.body);
+        console.log('user has been created successfully and the past data is saved in the ');
         if (savedData) {
-            console.log('ek user create ho gya');
+            console.log( 'deleted and the data is saved ')
             return res.status(201).json({ msg: 'user created successfully', data: savedData });
-        }
+        };
         res.status(500).json('user add nahi huaa');
-        console.log('user data is not create');
     } catch (error) {
         console.log(error)
         res.status(500).json('koi problem hai create krne me');
@@ -62,8 +61,8 @@ route.get('/get-one/:id', async (req, res) => {
             console.log('ek user mil gya');
             return res.status(202).json(findUser);
         }
-        res.status(404).json('amuser not find');
         console.log('ek user nahi mila')
+        return res.status(404).json('amuser not find');
     } catch (error) {
         console.log('ek user milne me problem aa rhi hai');
         res.status(505).json(error);

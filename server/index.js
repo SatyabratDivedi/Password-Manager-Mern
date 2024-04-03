@@ -7,7 +7,7 @@ import route from "./Routes/UserApi.js";
 const app = express();
 app.use(express.json());
 dotenv.config();
-app.use(cors())
+app.use(cors());
 
 const PORT = process.env.PORT || 3000;
 const URL = process.env.MONGO_URL;

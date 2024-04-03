@@ -1,5 +1,4 @@
 import mongoose  from "mongoose";
-
 const userSchema = new mongoose.Schema({
     website:{
          type:String,
@@ -14,6 +13,5 @@ const userSchema = new mongoose.Schema({
          require:true
     },
 })
-
 const user = mongoose.model('users', userSchema);
 export default user;
