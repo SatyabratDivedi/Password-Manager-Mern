@@ -5,17 +5,12 @@ const route = express();
 
 route.post('/create', async (req, res) => {
     const { website, username, password } = req.body;
-    const existPass = await user.findOne({ password })
     try {
-        if (existPass) {
-            return res.status(409).json({ msg: 'This password is already decleard' });
-        }
         const savedData = await user.create(req.body);
         if (savedData) {
         console.log('user has been created successfully');
             return res.status(201).json({ msg: 'user created successfully', data: savedData });
         };
-        res.status(500).json('user add nahi huaa');
     } catch (error) {
         console.log(error)
         res.status(500).json('koi problem hai create krne me');
