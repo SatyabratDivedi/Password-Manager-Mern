@@ -11,9 +11,8 @@ route.post('/create', async (req, res) => {
             return res.status(409).json({ msg: 'This password is already decleard' });
         }
         const savedData = await user.create(req.body);
-        console.log('user has been created successfully');
         if (savedData) {
-            console.log( 'deleted and the data is saved ')
+        console.log('user has been created successfully');
             return res.status(201).json({ msg: 'user created successfully', data: savedData });
         };
         res.status(500).json('user add nahi huaa');
