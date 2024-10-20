@@ -5,12 +5,18 @@ import './index.css'
 import './App.css'
 import toast, { Toaster } from 'react-hot-toast';
 import { createBrowserRouter,RouterProvider} from "react-router-dom";
-import { oneDataLoader, Updatepage } from './Updatepage.jsx'
+import { oneDataLoader, Updatepage } from './components/Updatepage.jsx';
+import Dashboard from './components/Dashboard.jsx'
+
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App/>,
+  },
+  {
+    path: "/dashboard",
+    element: <Dashboard/>,
   },
   {
     path: "/update/:id",
