@@ -15,8 +15,7 @@ const App = () => {
           <span className=" font-bold text-green-600"> &lt;P</span>ass<span className=" font-bold text-green-600">OP/&gt;</span>{" "}
         </div>
         <Link
-          to={"https://github.com/SatyabratDivedi"}
-          target="_blank"
+          to={"login"}
           className=" border flex gap-1 items-center bg-green-500 rounded-3xl p-1 px-5 cursor-pointer hover:bg-green-600 active:scale-95 duration-100"
         >
           Login

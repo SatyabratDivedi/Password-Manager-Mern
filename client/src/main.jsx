@@ -7,6 +7,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import { createBrowserRouter,RouterProvider} from "react-router-dom";
 import { oneDataLoader, Updatepage } from './components/Updatepage.jsx';
 import Dashboard from './components/Dashboard.jsx'
+import Login from './components/loginAndRegisterPage/Login.jsx'
+import Register from './components/loginAndRegisterPage/Register.jsx'
 
 
 const router = createBrowserRouter([
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
     path: "/update/:id",
     element: <Updatepage/>,
     loader: oneDataLoader,
+  },
+    {
+    path: "/login",
+    element: <Login/>,
+  },
+  {
+    path: "/register",
+    element: <Register/>,
   },
 ]);
 

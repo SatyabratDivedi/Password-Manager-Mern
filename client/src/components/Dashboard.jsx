@@ -87,9 +87,9 @@ const Dashboard = () => {
     <>
     {/* nav bar */}
       <nav className=" font-semibold bg-slate-600 text-white flex justify-around items-center h-12">
-        <div>
+        <Link to={"/"}>
           <span className=" font-bold text-green-600"> &lt;P</span>ass<span className=" font-bold text-green-600">OP/&gt;</span>{" "}
-        </div>
+        </Link>
         <Link
           to={"https://github.com/SatyabratDivedi"}
           target="_blank"
