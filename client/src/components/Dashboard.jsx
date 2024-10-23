@@ -135,7 +135,7 @@ const Dashboard = () => {
 
       <form onSubmit={submitHandle} className=" flex flex-col gap-2 justify-center w-[80%] mt-3 md:w-[70%] lg:w-[50%] m-auto">
         <div className=" flex justify-center w-full">
-          <input onChange={editChange} className=" m-auto rounded-xl w-[80%] px-2 py-1 text-sm md:w-[100%]" type="text" value={website} name="website" id="website" placeholder="Website*" autoFocus />
+          <input onChange={editChange} className=" m-auto rounded-xl w-[80%] px-2 py-1 text-sm md:w-[100%]" type="text" value={website} name="website" id="website" placeholder="Website*" />
         </div>
         <div className=" flex flex-col gap-2 md:flex-row">
           <input onChange={editChange} className=" m-auto rounded-xl w-[80%] px-2 py-1 text-sm " type="text" value={username} name="username" id="username" placeholder="UserName*" />
