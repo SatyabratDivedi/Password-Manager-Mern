@@ -21,11 +21,10 @@ const App = () => {
         },
         credentials: "include",
       });
-      console.log(res);
       setIsLogin(res.ok);
-      const result = await res.json();
-      setLoginUserName(result.user.name);
       localStorage.setItem("isLogin", res.ok);
+      const result = await res.json();
+      setLoginUserName(result.user?.name);
     } catch (error) {
       console.log(error);
     }

@@ -33,11 +33,11 @@ const Dashboard = () => {
         },
         credentials: "include",
       });
-      if(!res.ok){
-        toast.error(res.statusText, {duration:1000})
-      }
-      console.log(res);
       const result = await res.json();
+      if(!res.ok){
+        toast.error(result.msg, {duration:1000})
+        console.log(result.msg)
+      }
       setStoreData(result.data)
       if (res.ok) {
         setSkeleton(false);

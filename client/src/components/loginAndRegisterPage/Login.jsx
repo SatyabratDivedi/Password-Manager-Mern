@@ -36,7 +36,6 @@ const Login = () => {
           credentials: "include",
         });
         const result = await res.json();
-        console.log('result: ', result);
         if (res.ok) {
           Cookies.set('tokenId', result.token, { expires: 1 });
           navigate("/");
