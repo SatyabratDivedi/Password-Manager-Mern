@@ -1,7 +1,7 @@
-import express from "express";
-import bcrypt from "bcrypt";
-import userModel from "../models/userModel.js";
-import jwt from "jsonwebtoken";
+const express = require("express");
+const bcrypt = require("bcrypt");
+const userModel = require("../models/userModel");
+const jwt = require("jsonwebtoken");
 
 const route = express();
 

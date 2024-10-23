@@ -1,6 +1,6 @@
-import passwordModel from "../models/passwordModel.js";
-import express from "express";
-import jwt from "jsonwebtoken";
+const passwordModel = require("../models/passwordModel");
+const express = require("express");
+const jwt = require("jsonwebtoken");
 
 const route = express();
 
