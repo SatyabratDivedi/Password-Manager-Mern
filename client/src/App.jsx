@@ -57,7 +57,7 @@ const App = () => {
       <section className="bg-green-50 py-20 text-center">
         {isLogin && <p>👋🏻 Hi! {loginUserName}</p>}
         <h1 className="text-4xl font-bold mb-6 animate-pulse px-2">Manage Your Passwords Safely</h1>
-        <p className="text-xl mb-12 px-1">Start securing your data with ease and confidence</p>
+        <p className="text-xl mb-12 px-1">Start securing your data with ease and confidence. (not encrypted demo only)</p>
         {/* Secure Lock Image */}
         <div className="flex justify-center mb-6">
           <FaLock className="text-9xl text-green-600 mb-4 animate-bounce" />
