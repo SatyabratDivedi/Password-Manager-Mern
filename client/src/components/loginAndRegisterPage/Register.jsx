@@ -21,6 +21,35 @@ const Register = () => {
     return newErrors;
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      setErrors({});
+      const toastId = toast.loading("Loading....");
+      try {
+        const res = await fetch("http://localhost:8000/api/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({name, email, password}),
+        });
+        const result = await res.json();
+        toast.success(result.msg, {id: toastId});
+        if (res.ok) {
+          navigate("/login");
+        } else {
+          toast.error(result.msg, {id: toastId});
+        }
+      } catch (error) {
+        console.log(error)
+        // toast.error(error.message, { id: toastId });
+      }
+    }
+  };
 
   return (
     <div className={style.signUpFormContainer}>

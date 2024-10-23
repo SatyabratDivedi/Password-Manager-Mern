@@ -5,11 +5,10 @@ import toast from "react-hot-toast";
 import Cookies from 'js-cookie';
 import style from './login.module.css';
 
-
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("satya@gmail.com");
+  const [password, setPassword] = useState("12345");
   const [errors, setErrors] = useState({});
 
   const validate = () => {
@@ -19,12 +18,43 @@ const Login = () => {
     return newErrors;
   };
 
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+    } else {
+      setErrors({});
+      const toastId = toast.loading("Verifying....");
+      try {
+        const res = await fetch("http://localhost:8000/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({email, password}),
+          credentials: "include",
+        });
+        const result = await res.json();
+        console.log('result: ', result);
+        if (res.ok) {
+          Cookies.set('tokenId', result.token, { expires: 1 });
+          navigate("/");
+          toast.success(result.msg, {id: toastId});
+        } else {
+          toast.error(result.msg, {id: toastId});
+        }
+      } catch (error) {
+        console.log(error)
+        toast.error(error.message, {id: toastId});
+      }
+    }
+  };
 
   return (
     <div className={style.signUpFormContainer}>
       <IoMdArrowBack size={28} className={style.backIcon} onClick={() => navigate("/")} />
-      <form onSubmit={} className={style.signUpForm}>
+      <form onSubmit={handleSubmit} className={style.signUpForm}>
         <div className={style.formGroup}>
           <label htmlFor="email">Email</label>
           <input

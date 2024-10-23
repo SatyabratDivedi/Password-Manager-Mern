@@ -1,78 +1,44 @@
-import user from "../models/usersModels.js"
-import express from "express"
+import express from "express";
+import bcrypt from "bcrypt";
+import userModel from "../models/userModel.js";
+import jwt from "jsonwebtoken";
 
 const route = express();
 
-route.post('/create', async (req, res) => {
-    const { website, username, password } = req.body;
-    try {
-        const savedData = await user.create(req.body);
-        if (savedData) {
-        console.log('user has been created successfully');
-            return res.status(201).json({ msg: 'user created successfully', data: savedData });
-        };
-    } catch (error) {
-        console.log(error)
-        res.status(500).json('koi problem hai create krne me');
-    }
-})
+route.post("/register", async (req, res) => {
+  console.log(req.body);
+  const {name, email, password} = req.body;
+  try {
+    const findUser = await userModel.findOne({email});
+    if (findUser) return res.status(409).json({msg: "this email is already registered"});
+    bcrypt.hash(password, 10, async (err, hasPassword) => {
+      if (err) return res.status(500).json({msg: "Error hashing password"});
+      const newUser = await userModel.create({name, email, password: hasPassword});
+      console.log(newUser);
+    });
+    res.status(200).json({msg: "register successfully"});
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+});
 
-route.delete('/delete_one/:id', async (req, res) => {
-    const existUser = await user.findById(req.params.id);
-    try {
-        if (existUser) {
-            const deletedData = await user.findByIdAndDelete(req.params.id);
-            console.log('user has been deleted');
-            return res.status(202).json({ msg: 'user has been deleted', data: deletedData });
-        }
-        res.status(404).json('not able to delete');
-        console.log('delete nahi huaa')
-    } catch (error) {
-        console.log(error);
-        res.status(505).json('koi problem hai delete krne me');
-    }
-})
-
-route.get('/get-all', async (req, res) => {
-    const allUserData = await user.find();
-    try {
-        if (allUserData) {
-            console.log('pura data mil gya');
-            return res.status(202).json(allUserData)
-        }
-        res.status(404).json('all user has not been found')
-        console.log('sbhi user nahi mile');
-    } catch (error) {
-        res.status.apply(505).json(error);
-        console.log(error);
-    }
-})
-
-route.get('/get-one/:id', async (req, res) => {
-    const findUser = await user.findById(req.params.id);
-    try {
-        if (findUser) {
-            console.log('ek user mil gya');
-            return res.status(202).json(findUser);
-        }
-        console.log('ek user nahi mila')
-        return res.status(404).json('amuser not find');
-    } catch (error) {
-        console.log('ek user milne me problem aa rhi hai');
-        res.status(505).json(error);
-    }
-})
-
-route.put('/update/:id', async (req, res) => {
-    const id = req.params.id;
-    const updateData = req.body;
-    try {
-        const updatedUser = await user.findByIdAndUpdate(id, updateData, { new: true });
-        res.status(200).json({ msg: 'user has been updated', data: updateData });
-        console.log('user update ho gya');
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+route.post("/login", async (req, res) => {
+  try {
+    const findUser = await userModel.findOne({email: req.body.email});
+    if (!findUser) return res.status(401).json({msg: "user not found"});
+    bcrypt.compare(req.body.password, findUser.password, (err, isMatch) => {
+      if (err) return res.status(500).json({msg: "Error comparing passwords"});
+      if (!isMatch) {
+        return res.status(401).json({msg: "Invalid credentials"});
+      }
+      const token = jwt.sign({user: findUser}, process.env.privateKey, {expiresIn: "1h"});
+      return res.status(200).json({msg: "Login successful", token});
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
 });
 
 export default route;

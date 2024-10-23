@@ -1,12 +1,39 @@
 import {FaLinkedin, FaFacebook, FaYoutube, FaLock, FaGithub} from "react-icons/fa";
 import {FaTwitter} from "react-icons/fa6";
-import {Link} from "react-router-dom";
+import {json, Link} from "react-router-dom";
 import pinCodeGif from "./assets/pinCode.gif";
 import crossPlatformGif from "./assets/crossPlatform.gif";
 import easyGif from "./assets/easy.gif";
 import updateGif from "./assets/update.gif";
+import Cookies from "js-cookie";
+import {useEffect, useState} from "react";
 
 const App = () => {
+  const [isLogin, setIsLogin] = useState(JSON.parse(localStorage.getItem("isLogin")) || false);
+  const [loginUserName, setLoginUserName] = useState("");
+  const tokenId = Cookies.get("tokenId");
+  const checkIsLogin = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/check-login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: tokenId,
+        },
+        credentials: "include",
+      });
+      console.log(res);
+      setIsLogin(res.ok);
+      const result = await res.json();
+      setLoginUserName(result.user.name);
+      localStorage.setItem("isLogin", res.ok);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    checkIsLogin();
+  }, []);
   return (
     <div className="min-h-screen bg-green-50 text-green-600 relative">
       {/* Navbar */}
@@ -15,16 +42,24 @@ const App = () => {
           <span className=" font-bold text-green-600"> &lt;P</span>ass<span className=" font-bold text-green-600">OP/&gt;</span>{" "}
         </div>
         <Link
-          to={"login"}
+          to={!isLogin && "/login"}
+          onClick={() => {
+            if (isLogin) {
+              Cookies.remove("tokenId");
+              localStorage.setItem("isLogin", false);
+              setIsLogin(false);
+            }
+          }}
           className=" border flex gap-1 items-center bg-green-500 rounded-3xl p-1 px-5 cursor-pointer hover:bg-green-600 active:scale-95 duration-100"
         >
-          Login
+          {isLogin ? "Logout" : "Login"}
         </Link>
       </nav>
       {/* Hero Section */}
       <section className="bg-green-50 py-20 text-center">
-        <h1 className="text-4xl font-bold mb-6 animate-pulse">Manage Your Passwords Safely</h1>
-        <p className="text-xl mb-12">Start securing your data with ease and confidence</p>
+        {isLogin && <p>👋🏻 Hi! {loginUserName}</p>}
+        <h1 className="text-4xl font-bold mb-6 animate-pulse px-2">Manage Your Passwords Safely</h1>
+        <p className="text-xl mb-12 px-1">Start securing your data with ease and confidence</p>
         {/* Secure Lock Image */}
         <div className="flex justify-center mb-6">
           <FaLock className="text-9xl text-green-600 mb-4 animate-bounce" />
@@ -104,35 +139,6 @@ const App = () => {
           </div>
         </div>
       </section>
-
-      {/* Social Media Links */}
-      <div className=" fixed bottom-6 right-6 flex flex-col gap-1">
-        <a
-          href="https://www.linkedin.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-green-600 text-white rounded-full p-4 shadow-md border-4 border-white hover:shadow-xl hover:bg-blue-700 transform hover:scale-110 hover:rotate-12 transition-all duration-300"
-        >
-          <FaLinkedin className="text-2xl" />
-        </a>
-        <a
-          href="https://www.facebook.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-green-500 text-white p-4 rounded-full shadow-md border-4 border-white hover:shadow-xl hover:bg-black transform hover:scale-110 hover:rotate-12 transition-all duration-300"
-        >
-          <FaGithub className="text-2xl" />
-        </a>
-        <a
-          href="https://www.youtube.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-green-600 text-white p-4 rounded-full shadow-md border-4 border-white hover:shadow-xl hover:bg-blue-700 transform hover:scale-110 hover:rotate-12 transition-all duration-300"
-        >
-          <FaTwitter className="text-2xl" />
-        </a>
-      </div>
-
       {/* Footer */}
       <footer className="py-6 text-center text-gray-500">© 2024 Password Manager, Inc. All Rights Reserved.</footer>
     </div>

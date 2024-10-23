@@ -5,12 +5,14 @@ import lottie from "lottie-web";
 import {defineElement} from "@lordicon/element";
 import toast from "react-hot-toast";
 import axios from "axios";
+import Cookies from "js-cookie";
 import {Link, useNavigate} from "react-router-dom";
 import LoadingGif from "./../assets/loading.gif";
 
 defineElement(lottie.loadAnimation);
 
 const Dashboard = () => {
+  const tokenId = Cookies.get("tokenId");
   const navigate = useNavigate();
   const [skeleton, setSkeleton] = useState(true);
   const [formData, setFormData] = useState({
@@ -23,11 +25,24 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get("https://password-manager-mern.onrender.com/api/get-all");
-      setStoreData(res.data);
-      console.log(res)
-      if(res.status){
+      const res = await fetch("http://localhost:8000/api/get-all", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: tokenId,
+        },
+        credentials: "include",
+      });
+      if(!res.ok){
+        toast.error(res.statusText, {duration:1000})
+      }
+      console.log(res);
+      const result = await res.json();
+      setStoreData(result.data)
+      if (res.ok) {
         setSkeleton(false);
+      } else {
+        navigate("/login");
       }
     } catch (error) {
       console.error("Error ", error);
@@ -40,14 +55,25 @@ const Dashboard = () => {
 
   const submitHandle = async (e) => {
     e.preventDefault();
+    console.log(formData)
     if (website === "" || username === "" || password === "") {
       toast.error("all details must be filled");
     } else {
       try {
-        const res = await axios.post("https://password-manager-mern.onrender.com/api/create", formData);
-        toast.success(res.data.msg);
+        const res = await fetch("http://localhost:8000/api/create", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: tokenId,
+          },
+          credentials: "include",
+          body: JSON.stringify(formData)
+        });
+        const result = await res.json();
+        console.log(result);
+        toast.success(result.msg);
+        fetchData();
         setFormData({website: "", username: "", password: ""});
-        setStoreData([...storeData, res.data.data]);
       } catch (error) {
         toast.error(error.response.data.msg);
       }
@@ -55,7 +81,7 @@ const Dashboard = () => {
   };
 
   const deleteCkl = async (id) => {
-    const res = await axios.delete(`https://password-manager-mern.onrender.com/api/delete_one/${id}`);
+    const res = await axios.delete(`http://localhost:8000/api/delete_one/${id}`);
     toast.success(res.data.msg);
     setStoreData((prevData) => prevData.filter((item) => item._id !== id));
   };
@@ -85,7 +111,7 @@ const Dashboard = () => {
   };
   return (
     <>
-    {/* nav bar */}
+      {/* nav bar */}
       <nav className=" font-semibold bg-slate-600 text-white flex justify-around items-center h-12">
         <Link to={"/"}>
           <span className=" font-bold text-green-600"> &lt;P</span>ass<span className=" font-bold text-green-600">OP/&gt;</span>{" "}
@@ -140,7 +166,7 @@ const Dashboard = () => {
               <div className=" flex justify-center items-center">
                 <img src={LoadingGif} width={70} alt="" />
               </div>
-            ) : storeData.length === 0 ? (
+            ) : storeData?.length === 0 ? (
               <tr className=" bg-red-200">
                 <td>No data</td>
               </tr>

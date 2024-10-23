@@ -7,7 +7,7 @@
   position: relative;
 }
 .backIcon {
-  color: #fff;
+  color: #11d111;
   cursor: pointer;
   position: absolute;
   top: 10%;
@@ -91,6 +91,7 @@ input{
 }
 
 .loginLink {
+  color: #16a34a;
   margin-top: 20px;
   text-align: center;
   font-size: 1rem;
