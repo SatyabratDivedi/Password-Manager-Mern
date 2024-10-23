@@ -30,7 +30,7 @@ const Register = () => {
       setErrors({});
       const toastId = toast.loading("Loading....");
       try {
-        const res = await fetch("http://localhost:8000/api/register", {
+        const res = await fetch("https://password-manager-backend1.vercel.app/api/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

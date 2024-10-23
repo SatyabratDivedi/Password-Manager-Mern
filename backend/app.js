@@ -9,8 +9,7 @@ const app = express();
 app.use(express.json());
 dotenv.config();
 app.use(cors({
-  // origin:'https://password-manager-mern.vercel.app',
-  origin:'http://localhost:5173',
+  origin:'https://password-manager.skdivedi.me',
   credentials:true
 }));
 

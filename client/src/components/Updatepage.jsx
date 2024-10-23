@@ -28,7 +28,7 @@ export const Updatepage = () => {
   const updateHandle = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:8000/api/update-data/${id}`, {
+      const res = await fetch(`https://password-manager-backend1.vercel.app/api/update-data/${id}`, {
         method: "put",
         headers: {
           "Content-Type": "application/json",
@@ -90,7 +90,7 @@ export const Updatepage = () => {
 };
 
 export const oneDataLoader = async ({params}) => {
-  const res = await axios.get(`http://localhost:8000/api/get-one/${params.id}`);
+  const res = await axios.get(`https://password-manager-backend1.vercel.app/api/get-one/${params.id}`);
   console.log(res);
   return res;
 };

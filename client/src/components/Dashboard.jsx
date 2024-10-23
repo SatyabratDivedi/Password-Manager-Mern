@@ -25,7 +25,7 @@ const Dashboard = () => {
 
   const fetchData = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/get-all", {
+      const res = await fetch("https://password-manager-backend1.vercel.app/api/get-all", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -60,7 +60,7 @@ const Dashboard = () => {
       toast.error("all details must be filled");
     } else {
       try {
-        const res = await fetch("http://localhost:8000/api/create", {
+        const res = await fetch("https://password-manager-backend1.vercel.app/api/create", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -81,7 +81,7 @@ const Dashboard = () => {
   };
 
   const deleteCkl = async (id) => {
-    const res = await axios.delete(`http://localhost:8000/api/delete_one/${id}`);
+    const res = await axios.delete(`https://password-manager-backend1.vercel.app/api/delete_one/${id}`);
     toast.success(res.data.msg);
     setStoreData((prevData) => prevData.filter((item) => item._id !== id));
   };

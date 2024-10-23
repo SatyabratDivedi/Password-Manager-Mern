@@ -1,6 +1,5 @@
-import {FaLinkedin, FaFacebook, FaYoutube, FaLock, FaGithub} from "react-icons/fa";
-import {FaTwitter} from "react-icons/fa6";
-import {json, Link} from "react-router-dom";
+import {FaLinkedin, FaFacebook, FaYoutube, FaLock} from "react-icons/fa";
+import {Link} from "react-router-dom";
 import pinCodeGif from "./assets/pinCode.gif";
 import crossPlatformGif from "./assets/crossPlatform.gif";
 import easyGif from "./assets/easy.gif";
@@ -14,7 +13,7 @@ const App = () => {
   const tokenId = Cookies.get("tokenId");
   const checkIsLogin = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/check-login", {
+      const res = await fetch("https://password-manager-backend1.vercel.app/api/check-login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
