@@ -19,4 +19,4 @@ const passwordSchema = new mongoose.Schema({
   },
 });
 const passwordModel = mongoose.model("passwordData", passwordSchema);
-export default passwordModel;
+module.exports = passwordModel;

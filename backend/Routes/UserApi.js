@@ -1,9 +1,8 @@
-const express = require("express");
 const bcrypt = require("bcrypt");
 const userModel = require("../models/userModel");
 const jwt = require("jsonwebtoken");
-
-const route = express();
+const express = require("express");
+const route = express.Router();
 
 route.post("/register", async (req, res) => {
   console.log(req.body);
@@ -41,4 +40,4 @@ route.post("/login", async (req, res) => {
   }
 });
 
-export default route;
+module.exports = route;

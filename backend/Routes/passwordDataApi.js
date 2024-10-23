@@ -1,8 +1,7 @@
 const passwordModel = require("../models/passwordModel");
-const express = require("express");
 const jwt = require("jsonwebtoken");
-
-const route = express();
+const express = require("express");
+const route = express.Router();
 
 route.post("/create", checkAuth, async (req, res) => {
   const {website, username, password} = req.body;
@@ -80,7 +79,7 @@ route.put("/update-data/:id", async (req, res) => {
 });
 
 route.post("/check-login", checkAuth, (req, res) => {
-  res.status(200).json({msg: "user found", user:req.user});
+  res.status(200).json({msg: "user found", user: req.user});
 });
 
 function checkAuth(req, res, next) {
@@ -93,4 +92,4 @@ function checkAuth(req, res, next) {
   });
 }
 
-export default route;
+module.exports = route;
