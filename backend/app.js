@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const passwordRoute = require("./routes/passwordDataApi");
-const userRoute = require("./routes/userApi");
+const passwordRoute = require("./apis/passwordDataApi.js");
+const userRoute = require("./apis/userApi.js");
 
 const app = express();
 app.use(express.json());
