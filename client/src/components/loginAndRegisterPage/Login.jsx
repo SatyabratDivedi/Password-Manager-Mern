@@ -7,8 +7,8 @@ import style from './login.module.css';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("satya@gmail.com");
-  const [password, setPassword] = useState("12345");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
 
   const validate = () => {
