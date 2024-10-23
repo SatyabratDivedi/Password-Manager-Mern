@@ -2,14 +2,15 @@ const mongoose = require("mongoose");
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
-const passwordRoute = require("./Routes/passwordDataApi");
-const userRoute = require("./Routes/userApi");
+const passwordRoute = require("./routes/passwordDataApi");
+const userRoute = require("./routes/userApi");
 
 const app = express();
 app.use(express.json());
 dotenv.config();
 app.use(cors({
-  origin:'https://password-manager-mern.vercel.app',
+  // origin:'https://password-manager-mern.vercel.app',
+  origin:'http://localhost:5173',
   credentials:true
 }));
 
